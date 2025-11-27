@@ -2,8 +2,7 @@ const express = require('express');
 const toolsRoutes = require('./routes/tools');
 const db = require('./config/database');
 const app = express();
-const PORT = process.env.PORT;
-const DB_HOST = process.env.DB_HOST;
+const PORT = 3000;
 
 app.use(express.json());
 
@@ -18,5 +17,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Serveur démarré sur http://${DB_HOST}:${PORT}`);
+    console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
