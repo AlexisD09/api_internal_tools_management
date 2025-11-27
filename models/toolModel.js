@@ -1,4 +1,5 @@
 const db = require('../config/database');
+const categoryModel = require('../models/categoryModel');
 
 const allowedColumns = ['department', 'status', 'min_cost', 'max_cost', 'category'];
 
@@ -14,26 +15,28 @@ exports.getTools = async (filters) => {
             case 'department':
                 conditions.push('owner_department = ?');
                 values.push(value);
+
                 break;
             case 'min_cost':
                 conditions.push('monthly_cost >= ?');
                 values.push(value);
+
                 break;
             case 'max_cost':
                 conditions.push('monthly_cost <= ?');
                 values.push(value);
+
                 break;
             case 'category':
-                const [[categoryRow]] = await db.query(
-                    'SELECT id FROM categories WHERE name = ?',
-                    [value]
-                );
-                if (categoryRow) {
+                const categoryId = await categoryModel.getCategoryIdByName(value);
+
+                if (categoryId) {
                     conditions.push('category_id = ?');
-                    values.push(categoryRow.id);
+                    values.push(categoryId);
                 } else {
                     conditions.push('1 = 0');
                 }
+
                 break;
             default:
                 conditions.push(`${key} = ?`);
@@ -59,3 +62,9 @@ exports.getTool = async (req) => {
 
     return rows;
 };
+
+exports.getCountTools = async () => {
+    const [rows] = await db.query('SELECT COUNT(*) as total FROM tools');
+
+    return rows[0].total;
+}
