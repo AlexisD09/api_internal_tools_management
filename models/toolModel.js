@@ -55,7 +55,7 @@ exports.getTools = async (filters) => {
 };
 
 exports.getTool = async (req) => {
-    const [rows] = await db.query(
+    const [[rows]] = await db.query(
         'SELECT * FROM tools WHERE id = ?',
         [req.params.id]
     );

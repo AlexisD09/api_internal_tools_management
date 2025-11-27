@@ -1,5 +1,6 @@
 const toolModel = require('../models/toolModel');
 const { setErrorMessage } = require('../controllers/errorController');
+const { getLast30DaysByToolId } = require('../models/usageModel');
 
 exports.getTools = async (req, res) => {
     try {
@@ -34,15 +35,17 @@ exports.getTool = async (req, res) => {
             return setErrorMessage(res, 404, 'Tool not found', `Tool with id ${req.params.id} does not exist`);
         }
 
-        res.json({
-            data: tool,
-            usage_metrics: {
-                last_30_days: {
-                    total_sessions: 0,
-                    avg_sessions_minutes: 0
-                }
+        let metrics = await getLast30DaysByToolId(tool.id);
+        metrics.avg_sessions_minutes = metrics.avg_sessions_minutes === null ? 0 : Math.round(metrics.avg_sessions_minutes);
+
+        tool.usage_metrics = {
+            last_30_days: {
+                total_sessions: metrics.total_sessions,
+                avg_sessions_minutes: metrics.avg_sessions_minutes
             }
-        });
+        }
+
+        res.json(tool);
     } catch (error) {
         return setErrorMessage(res, 500, 'Internal Server Error', `Database connexion failed`);
     }
