@@ -7,7 +7,10 @@ exports.getTools = async (req, res) => {
         const filtersApplied = {};
 
         if (tools.length === 0) {
-            return res.status(404).json({ message: 'Aucun outil trouvé' });
+            return res.status(404).json({
+                error: 'Tools not found',
+                message: `No tools found.`,
+            });
         }
 
         for(let key in req.query) {
@@ -21,7 +24,10 @@ exports.getTools = async (req, res) => {
             filters_applied: filtersApplied
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            error: "Internal Server Error",
+            message: "Database connexion failed"
+        });
     }
 };
 
@@ -30,14 +36,20 @@ exports.getTool = async (req, res) => {
         const tool = await toolModel.getTool(req);
 
         if (tool.length === 0) {
-            return res.status(404).json({ message: 'Aucun outil trouvé' });
+            return res.status(404).json({
+                error: 'Tool not found',
+                message: `Tool with id ${req.params.id} does not exist`
+            });
         }
 
         res.json({
             data: tool
         });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            error: "Internal Server Error",
+            message: "Database connexion failed"
+        });
     }
 }
 
@@ -46,6 +58,9 @@ exports.getCountTools = async (req, res) => {
         const total = await toolModel.getCountTools();
         res.json({ total });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            error: "Internal Server Error",
+            message: "Database connexion failed"
+        });
     }
 }
