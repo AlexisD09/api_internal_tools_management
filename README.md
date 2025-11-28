@@ -13,7 +13,7 @@
 2. npm install
 3. npm run start
 4. API disponible sur http://localhost:3306
-5. Documentation: http://localhost:3306/[chemin_docs]
+5. Documentation: http://localhost:3306/api/docs
 
 ## Configuration
 - Variables d'environnement: voir .env.example
