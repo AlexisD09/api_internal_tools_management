@@ -73,7 +73,7 @@ exports.postTool = async ({ name, description, monthly_cost, owner_department, w
     const query = `
         INSERT INTO tools (name, description, vendor, website_url, category_id, monthly_cost, owner_department)
         VALUES (?, ?, ?, ?, ?, ?, ?)
-  `;
+    `;
 
     const [insertResult] = await db.query(query, [
         name,
@@ -87,5 +87,34 @@ exports.postTool = async ({ name, description, monthly_cost, owner_department, w
 
     const [[row]] = await db.query(`SELECT * FROM tools WHERE id = ?`, [insertResult.insertId]);
 
+    return row;
+}
+
+exports.updateTool = async (id, fieldsToUpdate) => {
+    const [[existingTool]] = await db.query(`SELECT * FROM tools WHERE id = ?`, [id]);
+    if (!existingTool) throw new Error("Tool not found");
+
+    const updatedData = { ...existingTool, ...fieldsToUpdate };
+
+    const query = `
+        UPDATE tools
+        SET name = ?, description = ?, vendor = ?, website_url = ?, category_id = ?, monthly_cost = ?, owner_department = ?, status = ?, active_users_count = ?
+        WHERE id = ?
+    `;
+
+    await db.query(query, [
+        updatedData.name,
+        updatedData.description,
+        updatedData.vendor,
+        updatedData.website_url,
+        updatedData.category_id,
+        updatedData.monthly_cost,
+        updatedData.owner_department,
+        updatedData.status,
+        updatedData.active_users_count,
+        id
+    ]);
+
+    const [[row]] = await db.query(`SELECT * FROM tools WHERE id = ?`, [id]);
     return row;
 }

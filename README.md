@@ -26,5 +26,5 @@
 [commande_lancement_tests] - Tests unitaires + intégration
 
 ## Architecture
-- Rapide, flexible, maintenable, évolution simple
-- MVC, architecture permetant un code organisé, maintenable et facilement évolutif.
+- Node.js + Express : Rapide, flexible, maintenable, évolution simple
+- MVC : architecture permettant un code organisé, maintenable et facilement évolutif.

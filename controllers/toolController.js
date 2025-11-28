@@ -69,3 +69,13 @@ exports.postTool = async (req, res) => {
         return setErrorMessage(res, 500, 'Internal Server Error', error.message);
     }
 }
+
+exports.updateTool = async (req, res) => {
+    try {
+        const updatedTool = await toolModel.updateTool(req.params.id, req.body);
+
+        res.json(updatedTool);
+    } catch (error) {
+        return setErrorMessage(res, 500, 'Internal Server Error', error.message);
+    }
+}
