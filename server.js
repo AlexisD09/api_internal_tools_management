@@ -1,5 +1,6 @@
 const express = require('express');
 const toolsRoutes = require('./routes/tools');
+const analyticsRoutes = require('./routes/analytics');
 const db = require('./config/database');
 const app = express();
 const PORT = 3000;
@@ -15,6 +16,7 @@ db.query('SELECT 1')
     .catch(err => console.error('✗ Erreur de connexion à la base:', err.message));
 
 app.use('/api/tools', toolsRoutes);
+app.use('/api/analytics', analyticsRoutes);
 app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
 app.get('/', (req, res) => {

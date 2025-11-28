@@ -64,9 +64,9 @@ exports.getTool = async (req) => {
 };
 
 exports.getCountTools = async () => {
-    const [rows] = await db.query('SELECT COUNT(*) as total FROM tools');
+    const [[rows]] = await db.query('SELECT COUNT(*) as total FROM tools');
 
-    return rows[0].total;
+    return rows.total;
 }
 
 exports.postTool = async ({ name, description, monthly_cost, owner_department, website_url, category_id, vendor }) => {

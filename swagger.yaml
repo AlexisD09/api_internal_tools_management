@@ -1,4 +1,4 @@
-openapi: 3.0.4
+openapi: "3.0.4"
 info:
   title: Internal Tools API
   version: "1.0.0"
@@ -332,3 +332,55 @@ paths:
                     type: string
                     format: date-time
                     example: "2025-06-01T10:10:00Z"
+  /api/analytics/department-costs:
+    get:
+      tags:
+        - Analytics
+      summary: Répartition coûts départements.
+      responses:
+        200:
+          description: >
+            Récupère les statistiques financières pour chaque département :
+                  le coût total des outils, le nombre d'outils, le nombre total d'utilisateurs actifs, 
+                  le coût moyen par outil, ainsi que le pourcentage que représente chaque département
+                  par rapport au coût total de l'entreprise. Indique également le département le plus coûteux.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        department:
+                          type: string
+                          example: "Engineering"
+                        total_cost:
+                          type: number
+                          example: 890.50
+                        tools_count:
+                          type: number
+                          example: 12
+                        total_users:
+                          type: number
+                          example: 45
+                        average_cost_per_tool:
+                          type: number
+                          example: 74.21
+                        cost_percentage:
+                          type: number
+                          example: 36.2
+                  summary:
+                    type: object
+                    properties:
+                      total_company_cost:
+                        type: number
+                        example: 2450.80
+                      departments_count:
+                        type: number
+                        example: 6
+                      most_expensive_department:
+                        type: number
+                        example: "Engineering"
