@@ -2,7 +2,7 @@ const ToolValidator = require('../validators/toolValidator');
 
 async function validateTool(req, res, next) {
     try {
-        const {name, monthly_cost, owner_department, website_url, category_id, vendor} = req.body;
+        const {name, monthly_cost, owner_department, website_url, category_id, vendor, description} = req.body;
 
         ToolValidator.validateToolName(name);
         ToolValidator.validateToolMonthlyCost(monthly_cost);
@@ -10,6 +10,7 @@ async function validateTool(req, res, next) {
         ToolValidator.validateToolWebsiteUrl(website_url);
         await ToolValidator.validateToolCategoryId(category_id);
         ToolValidator.validateToolVendor(vendor);
+        ToolValidator.validateToolDescription(description);
 
         next();
     } catch (error) {

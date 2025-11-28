@@ -19,7 +19,7 @@ exports.validateToolMonthlyCost = (monthlyCost) => {
 }
 
 exports.validateToolOwnerDepartment = (department) => {
-    let departments = ['Engineering, Sales, Marketing, HR, Finance, Operations, Design'];
+    let departments = ['Engineering', 'Sales', 'Marketing', 'HR', 'Finance', 'Operations', 'Design'];
 
     if(!department) {
         throw new Error("Department is required");
@@ -51,5 +51,11 @@ exports.validateToolVendor = (vendor) => {
         throw new Error("Vendor is required");
     }else if (vendor.length > 100) {
         throw new Error("Vendor must not exceed 100 characters");
+    }
+}
+
+exports.validateToolDescription = (description) => {
+    if(!description) {
+        throw new Error("Description is required");
     }
 }

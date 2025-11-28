@@ -55,12 +55,12 @@ exports.getTools = async (filters) => {
 };
 
 exports.getTool = async (req) => {
-    const [[rows]] = await db.query(
+    const [[row]] = await db.query(
         'SELECT * FROM tools WHERE id = ?',
         [req.params.id]
     );
 
-    return rows;
+    return row;
 };
 
 exports.getCountTools = async () => {
@@ -69,6 +69,23 @@ exports.getCountTools = async () => {
     return rows[0].total;
 }
 
-exports.postTool = async (req) => {
+exports.postTool = async ({ name, description, monthly_cost, owner_department, website_url, category_id, vendor }) => {
+    const query = `
+        INSERT INTO tools (name, description, vendor, website_url, category_id, monthly_cost, owner_department)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
 
+    const [insertResult] = await db.query(query, [
+        name,
+        description,
+        vendor,
+        website_url,
+        category_id,
+        monthly_cost,
+        owner_department
+    ]);
+
+    const [[row]] = await db.query(`SELECT * FROM tools WHERE id = ?`, [insertResult.insertId]);
+
+    return row;
 }

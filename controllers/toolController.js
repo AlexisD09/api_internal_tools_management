@@ -61,5 +61,11 @@ exports.getCountTools = async (req, res) => {
 }
 
 exports.postTool = async (req, res) => {
+    try {
+        const newTool = await toolModel.postTool(req.body);
 
+        res.status(201).json(newTool);
+    } catch (error) {
+        return setErrorMessage(res, 500, 'Internal Server Error', error.message);
+    }
 }
