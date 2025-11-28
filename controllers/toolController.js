@@ -59,3 +59,7 @@ exports.getCountTools = async (req, res) => {
         return setErrorMessage(res, 500, 'Internal Server Error', `Database connexion failed`);
     }
 }
+
+exports.postTool = async (req, res) => {
+
+}

@@ -68,3 +68,7 @@ exports.getCountTools = async () => {
 
     return rows[0].total;
 }
+
+exports.postTool = async (req) => {
+
+}
